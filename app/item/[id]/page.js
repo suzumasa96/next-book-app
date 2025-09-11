@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation"
+
 export const generateMetadata = async ({ params }) => {
     const { id } = await params
     const response = await fetch(`http://localhost:3000/api?id=${id}`)
@@ -10,6 +12,9 @@ export const generateMetadata = async ({ params }) => {
 const Item = async ({ params }) => {
     const { id } = await params;
     const response = await fetch(`http://localhost:3000/api?id=${id}`)
+    if (response.status === 404) {
+        notFound()
+    }
     const item = await response.json()
     return (
         <>
